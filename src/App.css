@@ -102,10 +102,41 @@ form {
     width: 1rem;
 }
 
-@media (max-width: 1320) {
+@media (max-width: 1320px) {
+    * {
+        font-size: 2.5vh;
+    }
+    
     article {
         display: block;
-        /* justify-content: center; */
         margin-top: 3rem;
+    }
+
+    #output_container {
+        display: inline;
+    }
+
+    #output_container span{
+        margin-left: 1rem;
+    }
+
+    .output_span_names {
+        display: inline;
+        width: none;
+    }
+
+    #input_container {
+        display: block;
+    }
+
+    form, #input_container div {
+        display: flex;
+        align-items: center;
+        justify-content: center;;
+        margin-bottom: 1rem;
+    }
+
+    button {
+        margin: 0 1rem 0 0;
     }
 }

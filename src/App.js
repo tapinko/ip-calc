@@ -9,7 +9,8 @@ const App = () => {
     const [lastUsableOutput, LastUsableOutput] = useState("");
     const [gatewayOutput, GatewayOutput] = useState("");
     const [numberOfUsableHostsOutput, NumberOfUsableHosts] = useState("");
-    const [classOutput, ClassOutput] = useState("");
+    const [classIPOutput, ClassIPOutput] = useState("");
+    const [classMaskOutput, ClassMaskOutput] = useState("");
     const [autoUpdate, AutoUpdate] = useState(false);
 
     const [prefixInput, PrefixOutput] = useState(0);
@@ -57,7 +58,7 @@ const App = () => {
         return newOctets.join('.');
     }
 
-    function whichClass(ip) {
+    function whichIPClass(ip) {
         var octets = ip.split('.');
 
         if (octets[0] <= 127 && octets[3] <= 255) return "A";
@@ -65,6 +66,13 @@ const App = () => {
         if (octets[0] <= 223 && octets[3] <= 255) return "C";
         if (octets[0] <= 239 && octets[3] <= 255) return "D";
         if (octets[0] <= 255 && octets[3] <= 255) return "E";
+    }
+
+    function whichMaskClass(prefix) {
+        if (prefix <= 8) return "A";
+        if (prefix <= 16) return "B";
+        if (prefix <= 24) return "C";
+        if (prefix <= 32) return "Not defined";
     }
 
     const updateBtn = () => {
@@ -79,7 +87,8 @@ const App = () => {
         FirstUsableOutput(addHostsToIP(ipAddressInput, 2));
         LastUsableOutput(addHostsToIP(ipAddressInput, (numberOfHosts - 2)));
         BroadcastOutput(addHostsToIP(ipAddressInput, (numberOfHosts - 1)));
-        ClassOutput(whichClass(ipAddressInput));
+        ClassIPOutput(whichIPClass(ipAddressInput));
+        ClassMaskOutput(whichMaskClass(prefixInput));
     }
 
     const IPOnChange = (e) => {
@@ -129,20 +138,26 @@ const App = () => {
                         <span>{maskOutput}</span>
                     </div>
                     <div class="output_subcontainer">
-                        <span class="output_span_names">Class: </span>
-                        <span>{classOutput}</span>
+                        <span class="output_span_names">IP class: </span>
+                        <span>{classIPOutput}</span>
+                    </div>
+                    <div class="output_subcontainer">
+                        <span class="output_span_names">Mask class: </span>
+                        <span>{classMaskOutput}</span>
                     </div>
                 </div>
                 <div id="input_container">
-                    <span>IP:&nbsp;</span>
                     <form>
+                        <span>IP:&nbsp;</span>
                         <input id="inputIP" type="text" placeholder="192.168.0.0" required onChange={IPOnChange} />
                         <span>/</span>
                         <input id="inputPrefix" type="text" placeholder="24" required onChange={prefixOnChange} />
                     </form>
-                    <button onClick={updateBtn}>Update</button>
-                    <span>Auto update</span>
-                    <input id="autoupdate_checkbox" type="checkbox" onChange={(e) => AutoUpdate(e.target.value)} />
+                    <div>
+                        <button onClick={updateBtn}>Update</button>
+                        <span>Auto update</span>
+                        <input id="autoupdate_checkbox" type="checkbox" onChange={(e) => AutoUpdate(e.target.value)} />
+                    </div>
                 </div>
             </article>
         </div>
