@@ -58,6 +58,10 @@ span {
     font-weight: bold;
 }
 
+form {
+    display: inline;
+}
+
 #inputIP {
     width: 8rem;
     margin: 0 .5rem 0 .5rem;
@@ -96,4 +100,12 @@ span {
     margin-left: .5rem;
     height: 1rem;
     width: 1rem;
+}
+
+@media (max-width: 1320) {
+    article {
+        display: block;
+        /* justify-content: center; */
+        margin-top: 3rem;
+    }
 }
